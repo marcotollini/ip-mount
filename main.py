@@ -23,7 +23,7 @@ def mount_ip(interface, ip, prefix, number_ips, operation = "add"):
         os.system(command.format(ip=str(ip), prefix=prefix, interface=interface, operation=operation))
         if i % 100 == 0:
             print(f"Done {i}/{number_ips} interfaces: {operation}")
-        ip = next(ip)
+        ip += 1
 
 
     print("All done :)")
