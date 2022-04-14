@@ -5,8 +5,12 @@ import ipaddress
 command = "ip addr {operation} {ip}/{prefix} dev {interface}"
 
 def mount_ip(interface, ip, prefix, number_ips, operation = "add"):
-    start = ipaddress.IPv4Address(ip)
-    network = ipaddress.IPv4Network(f'{ip}/{prefix}', strict=False)
+    if '.' in ip:
+        start = ipaddress.IPv4Address(ip)
+        network = ipaddress.IPv4Network(f'{ip}/{prefix}', strict=False)
+    else:
+        start = ipaddress.IPv6Address(ip)
+        network = ipaddress.IPv6Network(f'{ip}/{prefix}', strict=False)
     it = network.hosts()
     while next(it) < start:
         continue
