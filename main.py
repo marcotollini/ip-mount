@@ -8,11 +8,13 @@ def mount_ip(interface, ip, prefix, number_ips, operation = "add"):
     if '.' in ip:
         ip = ipaddress.IPv4Address(ip)
         network = ipaddress.IPv4Network(f'{ip}/{prefix}', strict=False)
-        max_ip = max(network)
+        first_ip = next(network.hosts())
+        max_ip = first_ip + 2**(32-prefix)-2
     else:
         ip = ipaddress.IPv6Address(ip)
         network = ipaddress.IPv6Network(f'{ip}/{prefix}', strict=False)
-        max_ip = max(network)
+        first_ip = next(network.hosts())
+        max_ip = first_ip + 2**(128-prefix)-2
 
     for i in range(1, number_ips+1):
         if ip > max_ip:
